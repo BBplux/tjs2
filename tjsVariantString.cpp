@@ -251,7 +251,7 @@ void TJSDumpStringHeap(void)
 }
 #endif
 //---------------------------------------------------------------------------
-static int TJS_USERENTRY TJSStringHeapSortFunction(const void *a, const void *b)
+static int  TJSStringHeapSortFunction(const void *a, const void *b)
 {
 	return (int)(*(const tTJSVariantString **)b - *(const tTJSVariantString **)a);
 }

@@ -180,7 +180,7 @@ public:
 	{
 		tjs_int CodePos;
 		tjs_int SourcePos;
-		static int TJS_USERENTRY
+		static int
 			SortFunction(const void *a, const void *b);
 	};
 

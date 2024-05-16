@@ -701,7 +701,7 @@ tjs_int tTJSInterCodeContext::PutData(const tTJSVariant &val)
 	return _DataAreaSize++;
 }
 //---------------------------------------------------------------------------
-int TJS_USERENTRY tTJSInterCodeContext::tSourcePos::
+int  tTJSInterCodeContext::tSourcePos::
 	SortFunction(const void *a, const void *b)
 {
 	const tSourcePos *aa = (const tSourcePos*)a;
