@@ -400,7 +400,7 @@ public:
 	TJS_METHOD_DEF(void, ToLowerCase, ());
 	TJS_METHOD_DEF(void, ToUppserCase, ());
 
-	tjs_int TJS_cdecl printf(const tjs_char *format, ...);
+	tjs_int printf(const tjs_char *format, ...);
 
 	tTJSString EscapeC() const;   // c-style string escape/unescaep
 	tTJSString UnescapeC() const;

@@ -169,7 +169,7 @@ void tTJSString::ToUppserCase()
 	}
 }
 //---------------------------------------------------------------------------
-tjs_int TJS_cdecl tTJSString::printf(const tjs_char *format, ...)
+tjs_int tTJSString::printf(const tjs_char *format, ...)
 {
 	tjs_int r;
 	tjs_char *buf = new tjs_char [TJS_TTSTR_SPRINTF_BUF_SIZE];

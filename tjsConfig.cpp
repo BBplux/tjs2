@@ -194,7 +194,7 @@ size_t TJS_strlen(const tjs_char *d)
 }
 //---------------------------------------------------------------------------
 #ifdef TJS_DEBUG_TRACE
-void TJS_cdecl TJS_debug_out(const tjs_char *format, ...)
+void  TJS_debug_out(const tjs_char *format, ...)
 {
 	va_list param;
 	va_start(param, format);
