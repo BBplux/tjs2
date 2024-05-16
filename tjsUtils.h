@@ -17,7 +17,7 @@
 #if 1
 #include <mutex>
 #else
-#ifdef __WIN32__
+#ifdef _WIN32
 #include <windows.h>
 #else
 #include <semaphore.h>
@@ -41,7 +41,7 @@ public:
 	void Leave() { Mutex.unlock(); }
 };
 #else
-#ifdef __WIN32__
+#ifdef _WIN32
 class tTJSCriticalSection
 {
 	CRITICAL_SECTION CS;
