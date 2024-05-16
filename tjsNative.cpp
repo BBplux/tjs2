@@ -69,7 +69,7 @@ tTJSNativeClassMethod::~tTJSNativeClassMethod()
 	if(TJSObjectHashMapEnabled()) TJSRemoveObjectHashRecord(this);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 tTJSNativeClassMethod::IsInstanceOf(tjs_uint32 flag,
 	const tjs_char *membername,  tjs_uint32 *hint,
 		const tjs_char *classname, iTJSDispatch2 *objthis)
@@ -82,7 +82,7 @@ tTJSNativeClassMethod::IsInstanceOf(tjs_uint32 flag,
 	return inherited::IsInstanceOf(flag, membername, hint, classname, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSNativeClassMethod::FuncCall(tjs_uint32 flag, const tjs_char * membername,
 		tjs_uint32 *hint, tTJSVariant *result,
 		tjs_int numparams, tTJSVariant **param,	iTJSDispatch2 *objthis)
@@ -116,7 +116,7 @@ tTJSNativeClassMethod * TJSCreateNativeClassMethod
 //---------------------------------------------------------------------------
 // tTJSNativeClassConstructor
 //---------------------------------------------------------------------------
-tjs_error  TJS_INTF_METHOD
+tjs_error
 	tTJSNativeClassConstructor::FuncCall(tjs_uint32 flag,
 	const tjs_char * membername, tjs_uint32 *hint,
 	tTJSVariant *result,
@@ -163,7 +163,7 @@ tTJSNativeClassProperty::~tTJSNativeClassProperty()
 	if(TJSObjectHashMapEnabled()) TJSRemoveObjectHashRecord(this);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 tTJSNativeClassProperty::IsInstanceOf(tjs_uint32 flag,
 	const tjs_char *membername, tjs_uint32 *hint,
 		const tjs_char *classname, iTJSDispatch2 *objthis)
@@ -176,7 +176,7 @@ tTJSNativeClassProperty::IsInstanceOf(tjs_uint32 flag,
 	return inherited::IsInstanceOf(flag, membername, hint, classname, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 tTJSNativeClassProperty::PropGet(tjs_uint32 flag, const tjs_char * membername,
 	tjs_uint32 *hint, tTJSVariant *result, iTJSDispatch2 *objthis)
 {
@@ -199,7 +199,7 @@ tTJSNativeClassProperty::PropGet(tjs_uint32 flag, const tjs_char * membername,
 	return er;
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 tTJSNativeClassProperty::PropSet(tjs_uint32 flag, const tjs_char *membername,
 	tjs_uint32 *hint, const tTJSVariant *param, iTJSDispatch2 *objthis)
 {
@@ -302,7 +302,7 @@ iTJSDispatch2 * tTJSNativeClass::CreateBaseTJSObject()
 	}
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 tTJSNativeClass::FuncCall(tjs_uint32 flag, const tjs_char * membername,
 	tjs_uint32 *hint,
 	tTJSVariant *result, tjs_int numparams, tTJSVariant **param,
@@ -337,7 +337,7 @@ tTJSNativeClass::FuncCall(tjs_uint32 flag, const tjs_char * membername,
 	{
 	public:
 		iTJSDispatch2 * Dest; // destination object
-		tjs_error TJS_INTF_METHOD FuncCall(
+		tjs_error  FuncCall(
 			tjs_uint32 flag, const tjs_char * membername, tjs_uint32 *hint,
 			tTJSVariant *result, tjs_int numparams, tTJSVariant **param,
 			iTJSDispatch2 *objthis)
@@ -374,7 +374,7 @@ tTJSNativeClass::FuncCall(tjs_uint32 flag, const tjs_char * membername,
 	return TJS_S_OK;
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 tTJSNativeClass::CreateNew(tjs_uint32 flag, const tjs_char * membername,
 	tjs_uint32 *hint,
 	iTJSDispatch2 **result, tjs_int numparams, tTJSVariant **param,
@@ -430,7 +430,7 @@ tTJSNativeClass::CreateNew(tjs_uint32 flag, const tjs_char * membername,
 	return hr;
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 tTJSNativeClass::IsInstanceOf(tjs_uint32 flag,
 	const tjs_char *membername, tjs_uint32 *hint, const tjs_char *classname,
 		iTJSDispatch2 *objthis)
@@ -464,7 +464,7 @@ tTJSNativeFunction::~tTJSNativeFunction()
 	if(TJSObjectHashMapEnabled()) TJSRemoveObjectHashRecord(this);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD tTJSNativeFunction::FuncCall(
+tjs_error  tTJSNativeFunction::FuncCall(
 	tjs_uint32 flag, const tjs_char * membername, tjs_uint32 *hint, tTJSVariant *result,
 	tjs_int numparams, tTJSVariant **param, iTJSDispatch2 *objthis)
 {
@@ -476,7 +476,7 @@ tjs_error TJS_INTF_METHOD tTJSNativeFunction::FuncCall(
 	return Process(result, numparams, param, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD tTJSNativeFunction::IsInstanceOf(
+tjs_error  tTJSNativeFunction::IsInstanceOf(
 	tjs_uint32 flag, const tjs_char *membername, tjs_uint32 *hint,
 	const tjs_char *classname, iTJSDispatch2 *objthis)
 {

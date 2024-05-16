@@ -95,14 +95,14 @@ public:
 //	bool DestructionTrace;
 
 public:
-	tjs_uint TJS_INTF_METHOD  AddRef(void);
-	tjs_uint TJS_INTF_METHOD  Release(void);
+	tjs_uint   AddRef(void);
+	tjs_uint   Release(void);
 
 protected:
 	tjs_uint GetRefCount() { return RefCount; }
 
 public:
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	FuncCall(
 		tjs_uint32 flag,
 		const tjs_char * membername,
@@ -116,7 +116,7 @@ public:
 		return membername?TJS_E_MEMBERNOTFOUND:TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	FuncCallByNum(
 		tjs_uint32 flag,
 		tjs_int num,
@@ -126,7 +126,7 @@ public:
 		iTJSDispatch2 *objthis
 		);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	PropGet(
 		tjs_uint32 flag,
 		const tjs_char * membername,
@@ -138,7 +138,7 @@ public:
 		return membername?TJS_E_MEMBERNOTFOUND:TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	PropGetByNum(
 		tjs_uint32 flag,
 		tjs_int num,
@@ -146,7 +146,7 @@ public:
 		iTJSDispatch2 *objthis
 		);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	PropSet(
 		tjs_uint32 flag,
 		const tjs_char *membername,
@@ -158,7 +158,7 @@ public:
 		return membername?TJS_E_MEMBERNOTFOUND:TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	PropSetByNum(
 		tjs_uint32 flag,
 		tjs_int num,
@@ -166,7 +166,7 @@ public:
 		iTJSDispatch2 *objthis
 		);
 	
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	GetCount(
 		tjs_int *result,
 		const tjs_char *membername,
@@ -177,7 +177,7 @@ public:
 		return TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	GetCountByNum(
 		tjs_int *result,
 		tjs_int num,
@@ -185,20 +185,20 @@ public:
 		);
 
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	PropSetByVS(tjs_uint32 flag, tTJSVariantString *membername,
 		const tTJSVariant *param, iTJSDispatch2 *objthis)
 	{
 		return TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	EnumMembers(tjs_uint32 flag, tTJSVariantClosure *callback, iTJSDispatch2 *objthis)
 	{
 		return TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	DeleteMember(
 		tjs_uint32 flag,
 		const tjs_char *membername,
@@ -209,14 +209,14 @@ public:
 		return membername?TJS_E_MEMBERNOTFOUND:TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	DeleteMemberByNum(
 		tjs_uint32 flag,
 		tjs_int num,
 		iTJSDispatch2 *objthis
 		);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	Invalidate(
 		tjs_uint32 flag,
 		const tjs_char *membername,
@@ -227,14 +227,14 @@ public:
 		return membername?TJS_E_MEMBERNOTFOUND:TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	InvalidateByNum(
 		tjs_uint32 flag,
 		tjs_int num,
 		iTJSDispatch2 *objthis
 		);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	IsValid(
 		tjs_uint32 flag,
 		const tjs_char *membername,
@@ -245,14 +245,14 @@ public:
 		return membername?TJS_E_MEMBERNOTFOUND:TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	IsValidByNum(
 		tjs_uint32 flag,
 		tjs_int num,
 		iTJSDispatch2 *objthis
 		);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	CreateNew(
 		tjs_uint32 flag,
 		const tjs_char * membername,
@@ -266,7 +266,7 @@ public:
 		return membername?TJS_E_MEMBERNOTFOUND:TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	CreateNewByNum(
 		tjs_uint32 flag,
 		tjs_int num,
@@ -276,7 +276,7 @@ public:
 		iTJSDispatch2 *objthis
 		);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	Reserved1(
 		)
 	{
@@ -284,7 +284,7 @@ public:
 	}
 
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	IsInstanceOf(
 		tjs_uint32 flag,
 		const tjs_char *membername,
@@ -296,7 +296,7 @@ public:
 		return membername?TJS_E_MEMBERNOTFOUND:TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	IsInstanceOfByNum(
 		tjs_uint32 flag,
 		tjs_int num,
@@ -304,7 +304,7 @@ public:
 		iTJSDispatch2 *objthis
 		);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	Operation(
 		tjs_uint32 flag,
 		const tjs_char *membername,
@@ -314,7 +314,7 @@ public:
 		iTJSDispatch2 *objthis
 		);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	OperationByNum(
 		tjs_uint32 flag,
 		tjs_int num,
@@ -324,7 +324,7 @@ public:
 		);
 
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	NativeInstanceSupport(
 		tjs_uint32 flag,
 		tjs_int32 classid,
@@ -334,7 +334,7 @@ public:
 		return TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	ClassInstanceInfo(
 		tjs_uint32 flag,
 		tjs_uint num,
@@ -344,14 +344,14 @@ public:
 		return TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	Reserved2(
 		)
 	{
 		return TJS_E_NOTIMPL;
 	}
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	Reserved3(
 		)
 	{
@@ -576,64 +576,64 @@ public:
 	//---------------------------------------------------------------------
 public:
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	FuncCall(tjs_uint32 flag, const tjs_char * membername, tjs_uint32 *hint,
 	tTJSVariant *result,
 		tjs_int numparams, tTJSVariant **param, iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	PropGet(tjs_uint32 flag, const tjs_char * membername, tjs_uint32 *hint,
 	 tTJSVariant *result,
 		iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	PropSet(tjs_uint32 flag, const tjs_char *membername, tjs_uint32 *hint,
 	 const tTJSVariant *param,
 		iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	GetCount(tjs_int *result, const tjs_char *membername, tjs_uint32 *hint,
 	 iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	PropSetByVS(tjs_uint32 flag, tTJSVariantString *membername,
 		const tTJSVariant *param, iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	EnumMembers(tjs_uint32 flag, tTJSVariantClosure *callback, iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	DeleteMember(tjs_uint32 flag, const tjs_char *membername, tjs_uint32 *hint,
 	 iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	Invalidate(tjs_uint32 flag, const tjs_char *membername,  tjs_uint32 *hint,
 	iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	IsValid(tjs_uint32 flag, const tjs_char *membername, tjs_uint32 *hint,
 	 iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	CreateNew(tjs_uint32 flag, const tjs_char * membername, tjs_uint32 *hint,
 	 iTJSDispatch2 **result,
 		tjs_int numparams, tTJSVariant **param,	iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	IsInstanceOf(tjs_uint32 flag, const tjs_char *membername, tjs_uint32 *hint,
 	 const tjs_char *classname,
 		iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	Operation(tjs_uint32 flag, const tjs_char *membername, tjs_uint32 *hint,
 	 tTJSVariant *result,
 		const tTJSVariant *param,	iTJSDispatch2 *objthis);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	NativeInstanceSupport(tjs_uint32 flag, tjs_int32 classid,
 		iTJSNativeInstance **pointer);
 
-	tjs_error TJS_INTF_METHOD
+	tjs_error
 	ClassInstanceInfo(tjs_uint32 flag, tjs_uint num, tTJSVariant *value);
 };
 //---------------------------------------------------------------------------

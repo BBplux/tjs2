@@ -183,15 +183,15 @@ class tTJSString;
 class iTJSTextReadStream
 {
 public:
-	virtual tjs_uint TJS_INTF_METHOD Read(tTJSString & targ, tjs_uint size) = 0;
-	virtual void TJS_INTF_METHOD Destruct() = 0; // must delete itself
+	virtual tjs_uint  Read(tTJSString & targ, tjs_uint size) = 0;
+	virtual void  Destruct() = 0; // must delete itself
 };
 //---------------------------------------------------------------------------
 class iTJSTextWriteStream
 {
 public:
-	virtual void TJS_INTF_METHOD Write(const tTJSString & targ) = 0;
-	virtual void TJS_INTF_METHOD Destruct() = 0; // must delete itself
+	virtual void  Write(const tTJSString & targ) = 0;
+	virtual void  Destruct() = 0; // must delete itself
 };
 //---------------------------------------------------------------------------
 extern iTJSTextReadStream * (*TJSCreateTextStreamForRead)(const tTJSString &name,
@@ -235,26 +235,26 @@ class iTJSBinaryStream
 {
 public:
 	/* if error, position is not changed */
-	virtual tjs_uint64 TJS_INTF_METHOD Seek(tjs_int64 offset, tjs_int whence) = 0;
+	virtual tjs_uint64  Seek(tjs_int64 offset, tjs_int whence) = 0;
 
 	/* returns actually read size */
-	virtual tjs_uint TJS_INTF_METHOD Read(void *buffer, tjs_uint read_size) = 0;
+	virtual tjs_uint  Read(void *buffer, tjs_uint read_size) = 0;
 
 	/* returns actually written size */
-	virtual tjs_uint TJS_INTF_METHOD Write(const void *buffer, tjs_uint write_size) = 0;
+	virtual tjs_uint  Write(const void *buffer, tjs_uint write_size) = 0;
 
 	// the default behavior is raising a exception
 	/* if error, raises exception */
-	virtual void TJS_INTF_METHOD SetEndOfStorage() = 0;
+	virtual void  SetEndOfStorage() = 0;
 
 	//-- should re-implement for higher performance
-	virtual tjs_uint64 TJS_INTF_METHOD GetSize() = 0;
+	virtual tjs_uint64  GetSize() = 0;
 
-	virtual void TJS_INTF_METHOD Destruct() = 0; // must delete itself
+	virtual void  Destruct() = 0; // must delete itself
 
-	virtual tjs_uint64 TJS_INTF_METHOD GetPosition() = 0;
+	virtual tjs_uint64  GetPosition() = 0;
 
-	virtual void TJS_INTF_METHOD SetPosition(tjs_uint64 pos) = 0;
+	virtual void  SetPosition(tjs_uint64 pos) = 0;
 };
 /*]*/
 
@@ -266,32 +266,32 @@ class tTJSBinaryStream : public iTJSBinaryStream
 private:
 public:
 	//-- must implement
-	virtual tjs_uint64 TJS_INTF_METHOD Seek(tjs_int64 offset, tjs_int whence) = 0;
+	virtual tjs_uint64  Seek(tjs_int64 offset, tjs_int whence) = 0;
 		/* if error, position is not changed */
 
 	//-- optionally to implement
-	virtual tjs_uint TJS_INTF_METHOD Read(void *buffer, tjs_uint read_size) = 0;
+	virtual tjs_uint  Read(void *buffer, tjs_uint read_size) = 0;
 		/* returns actually read size */
 
-	virtual tjs_uint TJS_INTF_METHOD Write(const void *buffer, tjs_uint write_size) = 0;
+	virtual tjs_uint  Write(const void *buffer, tjs_uint write_size) = 0;
 		/* returns actually written size */
 
-	virtual void TJS_INTF_METHOD SetEndOfStorage();
+	virtual void  SetEndOfStorage();
 		// the default behavior is raising a exception
 		/* if error, raises exception */
 
 	//-- should re-implement for higher performance
-	virtual tjs_uint64 TJS_INTF_METHOD GetSize() = 0;
+	virtual tjs_uint64  GetSize() = 0;
 
 	virtual ~tTJSBinaryStream() {;}
 
-	void TJS_INTF_METHOD Destruct() {
+	void  Destruct() {
 		delete this;
 	}
 
-	tjs_uint64 TJS_INTF_METHOD GetPosition();
+	tjs_uint64  GetPosition();
 
-	void TJS_INTF_METHOD SetPosition(tjs_uint64 pos);
+	void  SetPosition(tjs_uint64 pos);
 
 	void ReadBuffer(void *buffer, tjs_uint read_size);
 	void WriteBuffer(const void *buffer, tjs_uint write_size);

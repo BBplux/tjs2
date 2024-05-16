@@ -1130,7 +1130,7 @@ tTJSArrayNI::tTJSArrayNI()
 	// constructor
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD tTJSArrayNI::Construct(tjs_int numparams, tTJSVariant **params,
+tjs_error  tTJSArrayNI::Construct(tjs_int numparams, tTJSVariant **params,
 	iTJSDispatch2 * tjsobj)
 {
 	// called by TJS constructor
@@ -1165,7 +1165,7 @@ void tTJSArrayNI::Assign(iTJSDispatch2 * dsp)
 	}
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD tTJSArrayNI::tDictionaryEnumCallback::FuncCall(
+tjs_error  tTJSArrayNI::tDictionaryEnumCallback::FuncCall(
 	tjs_uint32 flag, const tjs_char * membername, tjs_uint32 *hint,
 	tTJSVariant *result, tjs_int numparams, tTJSVariant **param,
 	iTJSDispatch2 *objthis)
@@ -1654,7 +1654,7 @@ void tTJSArrayObject::Insert(tTJSArrayNI *ni, tTJSVariant *const *val, tjs_int n
 	}
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::FuncCall(tjs_uint32 flag, const tjs_char * membername,
 	tjs_uint32 *hint,
 		tTJSVariant *result, tjs_int numparams, tTJSVariant **param,
@@ -1667,7 +1667,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::FuncCall(flag, membername, hint, result, numparams, param, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::FuncCallByNum(tjs_uint32 flag, tjs_int num, tTJSVariant *result,
 		tjs_int numparams, tTJSVariant **param, iTJSDispatch2 *objthis)
 {
@@ -1679,7 +1679,7 @@ tjs_error TJS_INTF_METHOD
 	return TJSDefaultFuncCall(flag, val, result, numparams, param, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::PropGet(tjs_uint32 flag, const tjs_char * membername,
 	tjs_uint32*hint, tTJSVariant *result, iTJSDispatch2 *objthis)
 {
@@ -1689,7 +1689,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::PropGet(flag, membername, hint, result, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::PropGetByNum(tjs_uint32 flag, tjs_int num,
 		tTJSVariant *result, iTJSDispatch2 *objthis)
 {
@@ -1701,7 +1701,7 @@ tjs_error TJS_INTF_METHOD
 	return TJSDefaultPropGet(flag, val, result, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::PropSet(tjs_uint32 flag, const tjs_char *membername,
 		tjs_uint32 *hint,
 		const tTJSVariant *param, iTJSDispatch2 *objthis)
@@ -1712,7 +1712,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::PropSet(flag, membername, hint, param, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::PropSetByNum(tjs_uint32 flag, tjs_int num,
 		const tTJSVariant *param, iTJSDispatch2 *objthis)
 {
@@ -1743,7 +1743,7 @@ tjs_error TJS_INTF_METHOD
 	return hr;
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::PropSetByVS(tjs_uint32 flag, tTJSVariantString *membername,
 		const tTJSVariant *param, iTJSDispatch2 *objthis)
 {
@@ -1753,7 +1753,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::PropSetByVS(flag, membername, param, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::DeleteMember(tjs_uint32 flag, const tjs_char *membername,
 	tjs_uint32 *hint,
 	iTJSDispatch2 *objthis)
@@ -1764,7 +1764,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::DeleteMember(flag, membername, hint, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::DeleteMemberByNum(tjs_uint32 flag, tjs_int num,
 	iTJSDispatch2 *objthis)
 {
@@ -1780,7 +1780,7 @@ tjs_error TJS_INTF_METHOD
 	return TJS_S_OK;
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::Invalidate(tjs_uint32 flag, const tjs_char *membername,
 	tjs_uint32 *hint,
 	iTJSDispatch2 *objthis)
@@ -1791,7 +1791,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::Invalidate(flag, membername, hint, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::InvalidateByNum(tjs_uint32 flag, tjs_int num,
 		iTJSDispatch2 *objthis)
 {
@@ -1803,7 +1803,7 @@ tjs_error TJS_INTF_METHOD
 	return TJSDefaultInvalidate(flag, val, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::IsValid(tjs_uint32 flag, const tjs_char *membername,
 		tjs_uint32 *hint,
 		iTJSDispatch2 *objthis)
@@ -1814,7 +1814,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::IsValid(flag, membername, hint, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::IsValidByNum(tjs_uint32 flag, tjs_int num,
 		iTJSDispatch2 *objthis)
 {
@@ -1826,7 +1826,7 @@ tjs_error TJS_INTF_METHOD
 	return TJSDefaultIsValid(flag, val, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::CreateNew(tjs_uint32 flag, const tjs_char * membername,
 		tjs_uint32 *hint,
 		iTJSDispatch2 **result, tjs_int numparams, tTJSVariant **param,
@@ -1838,7 +1838,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::CreateNew(flag, membername, hint, result, numparams, param, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::CreateNewByNum(tjs_uint32 flag, tjs_int num, iTJSDispatch2 **result,
 		tjs_int numparams, tTJSVariant **param, iTJSDispatch2 *objthis)
 {
@@ -1850,7 +1850,7 @@ tjs_error TJS_INTF_METHOD
 	return TJSDefaultCreateNew(flag, val, result, numparams, param, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::IsInstanceOf(tjs_uint32 flag,const  tjs_char *membername,
 		tjs_uint32 *hint,
 		const tjs_char *classname, iTJSDispatch2 *objthis)
@@ -1861,7 +1861,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::IsInstanceOf(flag, membername, hint, classname, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::IsInstanceOfByNum(tjs_uint32 flag, tjs_int num,
 		const tjs_char *classname, iTJSDispatch2 *objthis)
 {
@@ -1873,7 +1873,7 @@ tjs_error TJS_INTF_METHOD
 	return TJSDefaultIsInstanceOf(flag, val, classname, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD
+tjs_error
 	tTJSArrayObject::Operation(tjs_uint32 flag, const tjs_char *membername,
 		tjs_uint32 *hint,
 		tTJSVariant *result, const tTJSVariant *param, iTJSDispatch2 *objthis)
@@ -1884,7 +1884,7 @@ tjs_error TJS_INTF_METHOD
 	return inherited::Operation(flag, membername, hint, result, param, objthis);
 }
 //---------------------------------------------------------------------------
-tjs_error TJS_INTF_METHOD 
+tjs_error
 	tTJSArrayObject::OperationByNum(tjs_uint32 flag, tjs_int num,
 		tTJSVariant *result, const tTJSVariant *param, iTJSDispatch2 *objthis)
 {
