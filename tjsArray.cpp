@@ -120,101 +120,66 @@ void tTJSStringAppender::Append(const tjs_char *string, tjs_int len)
 //---------------------------------------------------------------------------
 // tTJSArraySortCompare  : a class for comarison operator
 //---------------------------------------------------------------------------
-class tTJSArraySortCompare_NormalAscending :
-	public std::binary_function<const tTJSVariant &, const tTJSVariant &, bool>
-{
-public:
-	result_type operator () (first_argument_type lhs, second_argument_type rhs) const
-	{
+
+auto tTJSArraySortCompare_NormalAscending = [](const tTJSVariant &lhs, const tTJSVariant &rhs) -> bool {
+	return (lhs < rhs).operator bool();
+};
+
+auto tTJSArraySortCompare_NormalDescending = [](const tTJSVariant &lhs, const tTJSVariant &rhs) -> bool {
+	return (lhs > rhs).operator bool();
+};
+
+auto tTJSArraySortCompare_NumericAscending = [](const tTJSVariant &lhs, const tTJSVariant &rhs) -> bool {
+	if (lhs.Type() == tvtString && rhs.Type() == tvtString) {
+		tTJSVariant ltmp(lhs), rtmp(rhs);
+		ltmp.tonumber();
+		rtmp.tonumber();
+		return (ltmp < rtmp).operator bool();
+	}
+	return (lhs < rhs).operator bool();
+};
+
+auto tTJSArraySortCompare_NumericDescending = [](const tTJSVariant &lhs, const tTJSVariant &rhs) -> bool {
+	if (lhs.Type() == tvtString && rhs.Type() == tvtString) {
+		tTJSVariant ltmp(lhs), rtmp(rhs);
+		ltmp.tonumber();
+		rtmp.tonumber();
+		return (ltmp > rtmp).operator bool();
+	}
+	return (lhs > rhs).operator bool();
+};
+
+auto tTJSArraySortCompare_StringAscending = [](const tTJSVariant &lhs, const tTJSVariant &rhs) -> bool {
+	if (lhs.Type() == tvtString && rhs.Type() == tvtString)
 		return (lhs < rhs).operator bool();
-	}
+	return (ttstr) lhs < (ttstr) rhs;
 };
-class tTJSArraySortCompare_NormalDescending :
-	public std::binary_function<const tTJSVariant &, const tTJSVariant &, bool>
-{
-public:
-	result_type operator () (first_argument_type lhs, second_argument_type rhs) const
-	{
+
+auto tTJSArraySortCompare_StringDescending = [](const tTJSVariant &lhs, const tTJSVariant &rhs) -> bool {
+	if (lhs.Type() == tvtString && rhs.Type() == tvtString)
 		return (lhs > rhs).operator bool();
-	}
+	return (ttstr) lhs > (ttstr) rhs;
 };
-class tTJSArraySortCompare_NumericAscending :
-	public std::binary_function<const tTJSVariant &, const tTJSVariant &, bool>
-{
-public:
-	result_type operator () (first_argument_type lhs, second_argument_type rhs) const
-	{
-		if(lhs.Type() == tvtString && rhs.Type() == tvtString)
-		{
-			tTJSVariant ltmp(lhs), rtmp(rhs);
-			ltmp.tonumber();
-			rtmp.tonumber();
-			return (ltmp < rtmp).operator bool();
-		}
-		return (lhs < rhs).operator bool();
-	}
-};
-class tTJSArraySortCompare_NumericDescending :
-	public std::binary_function<const tTJSVariant &, const tTJSVariant &, bool>
-{
-public:
-	result_type operator () (first_argument_type lhs, second_argument_type rhs) const
-	{
-		if(lhs.Type() == tvtString && rhs.Type() == tvtString)
-		{
-			tTJSVariant ltmp(lhs), rtmp(rhs);
-			ltmp.tonumber();
-			rtmp.tonumber();
-			return (ltmp > rtmp).operator bool();
-		}
-		return (lhs > rhs).operator bool();
-	}
-};
-class tTJSArraySortCompare_StringAscending :
-	public std::binary_function<const tTJSVariant &, const tTJSVariant &, bool>
-{
-public:
-	result_type operator () (first_argument_type lhs, second_argument_type rhs) const
-	{
-		if(lhs.Type() == tvtString && rhs.Type() == tvtString)
-			return (lhs < rhs).operator bool();
-		return (ttstr)lhs < (ttstr)rhs;
-	}
-};
-class tTJSArraySortCompare_StringDescending :
-	public std::binary_function<const tTJSVariant &, const tTJSVariant &, bool>
-{
-public:
-	result_type operator () (first_argument_type lhs, second_argument_type rhs) const
-	{
-		if(lhs.Type() == tvtString && rhs.Type() == tvtString)
-			return (lhs > rhs).operator bool();
-		return (ttstr)lhs > (ttstr)rhs;
-	}
-};
-class tTJSArraySortCompare_Functional :
-	public std::binary_function<const tTJSVariant &, const tTJSVariant &, bool>
-{
+
+class tTJSArraySortCompare_Functional {
 	tTJSVariantClosure Closure;
+
 public:
-	tTJSArraySortCompare_Functional(const tTJSVariantClosure &clo) :
-		Closure(clo)
-	{
+	tTJSArraySortCompare_Functional(const tTJSVariantClosure &clo) : Closure(clo) {
 	}
 
-	result_type operator () (first_argument_type lhs, second_argument_type rhs) const
-	{
-
+	bool operator ()(const tTJSVariant &lhs, const tTJSVariant &rhs) const {
 		tTJSVariant result;
 
 		tjs_error hr;
 		tTJSVariant *param[] = {
 			const_cast<tTJSVariant *>(&lhs), // note that doing cast to non-const pointer
-			const_cast<tTJSVariant *>(&rhs) };
+			const_cast<tTJSVariant *>(&rhs)
+		};
 
 		hr = Closure.FuncCall(0, NULL, NULL, &result, 2, param, NULL);
 
-		if(TJS_FAILED(hr))
+		if (TJS_FAILED(hr))
 			TJSThrowFrom_tjs_error(hr);
 
 		return result.operator bool();
@@ -663,50 +628,50 @@ TJS_BEGIN_NATIVE_METHOD_DECL(/* func.name */sort)
 	case TJS_N('+'):
 		if(do_stable_sort)
 			std::stable_sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_NormalAscending());
+				tTJSArraySortCompare_NormalAscending);
 		else
 			std::sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_NormalAscending());
+				tTJSArraySortCompare_NormalAscending);
 		break;
 	case TJS_N('-'):
 		if(do_stable_sort)
 			std::stable_sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_NormalDescending());
+				tTJSArraySortCompare_NormalDescending);
 		else
 			std::sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_NormalDescending());
+				tTJSArraySortCompare_NormalDescending);
 		break;
 	case TJS_N('0'):
 		if(do_stable_sort)
 			std::stable_sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_NumericAscending());
+				tTJSArraySortCompare_NumericAscending);
 		else
 			std::sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_NumericAscending());
+				tTJSArraySortCompare_NumericAscending);
 		break;
 	case TJS_N('9'):
 		if(do_stable_sort)
 			std::stable_sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_NumericDescending());
+				tTJSArraySortCompare_NumericDescending);
 		else
 			std::sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_NumericDescending());
+				tTJSArraySortCompare_NumericDescending);
 		break;
 	case TJS_N('a'):
 		if(do_stable_sort)
 			std::stable_sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_StringAscending());
+				tTJSArraySortCompare_StringAscending);
 		else
 			std::sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_StringAscending());
+				tTJSArraySortCompare_StringAscending);
 		break;
 	case TJS_N('z'):
 		if(do_stable_sort)
 			std::stable_sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_StringDescending());
+				tTJSArraySortCompare_StringDescending);
 		else
 			std::sort(ni->Items.begin(), ni->Items.end(),
-				tTJSArraySortCompare_StringDescending());
+				tTJSArraySortCompare_StringDescending);
 		break;
 	case 0:
 		if(do_stable_sort)
