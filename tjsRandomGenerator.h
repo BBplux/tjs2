@@ -12,21 +12,12 @@
 #ifndef tjsRandomGeneratorH
 #define tjsRandomGeneratorH
 
-#include <time.h>
+#include <random>
 #include "tjsNative.h"
-#include "tjsMT19937ar-cok.h"
+
 
 namespace TJS
 {
-//---------------------------------------------------------------------------
-extern void (*TJSGetRandomBits128)(void *dest);
-    // retrives 128-bits (16bytes) random bits for random seed.
-    // this can be override application-specified routine, otherwise
-    // TJS2 uses current time as a random seed.
-//---------------------------------------------------------------------------
-
-
-
 //---------------------------------------------------------------------------
 class tTJSNI_RandomGenerator : public tTJSNativeInstance
 {
@@ -34,7 +25,7 @@ public:
 	tTJSNI_RandomGenerator();
     ~tTJSNI_RandomGenerator();
 private:
-	tTJSMersenneTwister *Generator;
+	std::mt19937_64 *Generator;
 
 public:
 	iTJSDispatch2 * Serialize();
