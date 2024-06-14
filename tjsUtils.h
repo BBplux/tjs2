@@ -141,6 +141,7 @@ class tTJSRefHolder
 private:
 	T *Object;
 public:
+	tTJSRefHolder() {}
 	tTJSRefHolder(T * ref) { Object = ref; Object->AddRef(); }
 	tTJSRefHolder(const tTJSRefHolder<T> &ref)
 	{

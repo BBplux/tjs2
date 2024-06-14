@@ -36,7 +36,7 @@ static tTJSGlobalStringMap * TJSGlobalStringMap = NULL;
 struct tTJSEmptyClass {};
 class tTJSGlobalStringMap
 {
-	tTJSHashCache<tTJSString, tTJSEmptyClass, tTJSHashFunc<ttstr>, 1024> Hash;
+	HashCache<tTJSString,tTJSEmptyClass,tTJSStringHash> Hash;
 
 	tjs_int RefCount;
 
@@ -57,23 +57,16 @@ public:
 	tTJSString _Map(const tTJSString & string)
 	{
 		// Search Hash, and return the string which to be shared
-
-		const tTJSString * key;
-		tTJSEmptyClass * v;
-
-		tjs_uint32 hash = tTJSHashFunc<ttstr>::Make(string);
-
-		if(Hash.FindAndTouchWithHash(string, hash, key, v))
-		{
-			ttstr ret(*key);
-			if(ret.GetHint()) *(ret.GetHint()) = hash;
+		auto val = Hash.find(string);
+		if (val != Hash.end()) {
+			ttstr ret(val->first);
+			if(ret.GetHint()) *(ret.GetHint()) = tTJSStringHash()(string);
 			return ret;
 		}
-		else
-		{
-			Hash.AddWithHash(string, hash, tTJSEmptyClass());
+		else {
+			Hash.Add(string,tTJSEmptyClass());
 			ttstr ret(string);
-			if(ret.GetHint()) *(ret.GetHint()) = hash;
+			if(ret.GetHint()) *(ret.GetHint()) = tTJSStringHash()(string);
 			return ret;
 		}
 	}

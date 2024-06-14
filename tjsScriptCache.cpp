@@ -108,16 +108,13 @@ void tTJSScriptCache::EvalExpression(const tjs_char *expression,
 	data.ExpressionMode = true;
 	data.MustReturnResult = result != NULL;
 
-	tjs_uint32 hash = tScriptCacheHashFunc::Make(data);
-
-	tScriptBlockHolder *holder = Cache.FindAndTouchWithHash(data, hash);
-
-	if(holder)
+	auto holder = Cache.find(data);
+	if(holder != Cache.end())
 	{
 		// found in cache
 
 		// execute script block in cache
-		holder->GetObjectNoAddRef()->ExecuteTopLevelScript(result, context);
+		holder->second.GetObjectNoAddRef()->ExecuteTopLevelScript(result, context);
 		return;
 	}
 
@@ -139,7 +136,7 @@ void tTJSScriptCache::EvalExpression(const tjs_char *expression,
 	{
 		// currently only single-context script block is cached
 		tScriptBlockHolder newholder(blk);
-		Cache.AddWithHash(data, hash, newholder);
+		Cache.Add(data,newholder);
 	}
 
 	blk->Release();
@@ -179,16 +176,13 @@ void tTJSScriptCache::EvalExpression(const ttstr &expression, tTJSVariant *resul
 	data.ExpressionMode = true;
 	data.MustReturnResult = result != NULL;
 
-	tjs_uint32 hash = tScriptCacheHashFunc::Make(data);
-
-	tScriptBlockHolder *holder = Cache.FindAndTouchWithHash(data, hash);
-
-	if(holder)
+	auto holder = Cache.find(data);
+	if(holder != Cache.end())
 	{
 		// found in cache
 
 		// execute script block in cache
-		holder->GetObjectNoAddRef()->ExecuteTopLevelScript(result, context);
+		holder->second.GetObjectNoAddRef()->ExecuteTopLevelScript(result, context);
 		return;
 	}
 
@@ -210,7 +204,7 @@ void tTJSScriptCache::EvalExpression(const ttstr &expression, tTJSVariant *resul
 	{
 		// currently only single-context script block is cached
 		tScriptBlockHolder newholder(blk);
-		Cache.AddWithHash(data, hash, newholder);
+		Cache.Add(data,newholder);
 	}
 
 	blk->Release();

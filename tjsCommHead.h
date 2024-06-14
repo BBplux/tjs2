@@ -54,6 +54,7 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <unordered_map>
 
 #include "tjsConfig.h"
 #include "tjs.h"

@@ -590,7 +590,7 @@ tTJSCustomObject::tTJSSymbolData * tTJSCustomObject::Add(const tjs_char * name,
 	if(hint && *hint)
 		hash = *hint;  // hint must be hash because of previous calling of "Find"
 	else
-		hash = tTJSHashFunc<tjs_char *>::Make(name);
+		hash = tTJSStringHash()(name);
 
 	tTJSSymbolData *lv1 = Symbols + (hash & HashMask);
 
@@ -650,7 +650,7 @@ tTJSCustomObject::tTJSSymbolData * tTJSCustomObject::Add(tTJSVariantString * nam
 	if(*(name->GetHint()))
 		hash = *(name->GetHint());  // hint must be hash because of previous calling of "Find"
 	else
-		hash = tTJSHashFunc<tjs_char *>::Make((const tjs_char *)(*name));
+		hash = tTJSStringHash()((const tjs_char *)(*name));
 
 	tTJSSymbolData *lv1 = Symbols + (hash & HashMask);
 
@@ -700,7 +700,7 @@ tTJSCustomObject::tTJSSymbolData * tTJSCustomObject::AddTo(tTJSVariantString *na
 	// at this point, the member must not exist in destination hash space
 
 	tjs_uint32 hash;
-	hash = tTJSHashFunc<tjs_char *>::Make((const tjs_char *)(*name));
+	hash = tTJSStringHash()((const tjs_char *)(*name));
 
 	tTJSSymbolData *lv1 = newdata + (hash & newhashmask);
 	tTJSSymbolData *data;
@@ -851,7 +851,7 @@ bool tTJSCustomObject::DeleteByName(const tjs_char * name, tjs_uint32 *hint)
 {
 	// TODO: utilize hint
 	// find an element named "name" and deletes it
-	tjs_uint32 hash = tTJSHashFunc<tjs_char *>::Make(name);
+	tjs_uint32 hash = tTJSStringHash()(name);
 	tTJSSymbolData * lv1 = Symbols + (hash & HashMask);
 
 	if(!(lv1->SymFlags & TJS_SYMBOL_USING) && lv1->Next== NULL)
@@ -1130,7 +1130,7 @@ tTJSCustomObject::tTJSSymbolData * tTJSCustomObject::Find(const tjs_char * name,
 		}
 	}
 
-	tjs_uint32 hash = tTJSHashFunc<tjs_char *>::Make(name);
+	tjs_uint32 hash = tTJSStringHash()(name);
 	if(hint && *hint)
 	{
 		if(*hint == hash) return NULL;

@@ -11,7 +11,6 @@
 
 #include "tjsCommHead.h"
 
-#include <map>
 #include <assert.h>
 #include "tjs.h"
 #include "tjsScriptBlock.h"
@@ -91,7 +90,7 @@ bool TJSUnaryAsteriskIgnoresPropAccess = false;
 class tTJSPPMap
 {
 public:
-	tTJSHashTable<ttstr, tjs_int32> Values;
+	std::unordered_map<ttstr, tjs_int32, tTJSStringHash> Values;
 };
 //---------------------------------------------------------------------------
 
@@ -135,7 +134,7 @@ tTJS::tTJS()
 
 		// push version value to pp value
 		PPValues = new tTJSPPMap();
-		PPValues->Values.Add(ttstr(TJS_W("version")), TJSVersionHex);
+		PPValues->Values[ttstr(TJS_W("version"))] = TJSVersionHex;
 
 		// create the GLOBAL object
 		Global = new tTJSCustomObject(TJS_GLOBAL_HASH_BITS);
@@ -503,14 +502,14 @@ void tTJS::EvalExpression(const ttstr &expression, tTJSVariant *result,
 //---------------------------------------------------------------------------
 void tTJS::SetPPValue(const tjs_char *name, tjs_int32 value)
 {
-	PPValues->Values.Add(ttstr(name), value);
+	PPValues->Values[ttstr(name)] = value;
 }
 //---------------------------------------------------------------------------
 tjs_int32 tTJS::GetPPValue(const tjs_char *name)
 {
-	tjs_int32 *f = PPValues->Values.Find(ttstr(name));
-	if(!f) return 0;
-	return *f;
+	auto f = PPValues->Values.find(ttstr(name));
+	if (f == PPValues->Values.end()) return 0;
+	return f->second;
 }
 //---------------------------------------------------------------------------
 void tTJS::DoGarbageCollection()

@@ -153,11 +153,7 @@ class tTJSObjectHashMap;
 tTJSObjectHashMap * TJSObjectHashMap;
 class tTJSObjectHashMap
 {
-	typedef
-		tTJSHashTable<void *, tTJSObjectHashMapRecord,
-			tTJSHashFunc<void *>, 1024>
-		tHash;
-	tHash Hash;
+	std::unordered_map<void *,tTJSObjectHashMapRecord> Hash;
 
 	tjs_int RefCount;
 
@@ -199,54 +195,59 @@ public:
 	void Add(void * object,
 		const tTJSObjectHashMapRecord & record)
 	{
-		Hash.Add(object, record);
+		Hash[object]= record;
 	}
 
 	void SetType(void * object, const ttstr & info)
 	{
-		tTJSObjectHashMapRecord * rec;
-		rec = Hash.Find(object);
-		if(!rec) return;
-		rec->Type = TJSMapGlobalStringMap(info);
+		auto rec = Hash.find(object);
+		if(rec == Hash.end()) {
+			return;
+		}
+		rec->second.Type = TJSMapGlobalStringMap(info);
 	}
 
 	ttstr GetType(void * object)
 	{
-		tTJSObjectHashMapRecord * rec;
-		rec = Hash.Find(object);
-		if(!rec) return ttstr();
-		return rec->Type;
+		auto rec = Hash.find(object);
+		if (rec == Hash.end()) {
+			return ttstr();
+		}
+		return rec->second.Type;
 	}
 
 	void SetFlag(void * object, tjs_uint32 flags_to_change, tjs_uint32 bits)
 	{
-		tTJSObjectHashMapRecord * rec;
-		rec = Hash.Find(object);
-		if(!rec) return;
-		rec->Flags &=  (~flags_to_change);
-		rec->Flags |=  (bits & flags_to_change);
+		auto rec = Hash.find(object);
+		if (rec == Hash.end()) {
+			return;
+		}
+		rec->second.Flags &= (~flags_to_change);
+		rec->second.Flags |= (bits & flags_to_change);
 	}
 
 	tjs_uint32 GetFlag(void * object)
 	{
-		tTJSObjectHashMapRecord * rec;
-		rec = Hash.Find(object);
-		if(!rec) return 0;
-		return rec->Flags;
+		auto rec = Hash.find(object);
+		if (rec == Hash.end()) {
+			return 0;
+		}
+		return rec->second.Flags;
 	}
 
 	void Remove(void * object)
 	{
-		Hash.Delete(object);
+		Hash.erase(object);
 	}
 
 	void WarnIfObjectIsDeleting(iTJSConsoleOutput * output, void * object)
 	{
-		tTJSObjectHashMapRecord * rec;
-		rec = Hash.Find(object);
-		if(!rec) return;
 
-		if(rec->Flags & TJS_OHMF_DELETING)
+
+		auto rec = Hash.find(object);
+		if (rec == Hash.end()) return;
+
+		if(rec->second.Flags & TJS_OHMF_DELETING)
 		{
 			// warn running code on deleting-in-progress object
 			ttstr warn(TJSWarning);
@@ -255,8 +256,8 @@ public:
 
 			ttstr info(TJSWarnRunningCodeOnDeletingObject);
 			info.Replace(TJS_W("%1"), tmp);
-			info.Replace(TJS_W("%2"), rec->Type);
-			info.Replace(TJS_W("%3"), rec->Where);
+			info.Replace(TJS_W("%2"), rec->second.Type);
+			info.Replace(TJS_W("%3"), rec->second.Where);
 			info.Replace(TJS_W("%4"), TJSGetStackTraceString(1));
 
 			output->Print((warn + info).c_str());
@@ -267,20 +268,18 @@ public:
 	{
 		{
 			ttstr msg = (const tjs_char *)TJSNObjectsWasNotFreed;
-			msg.Replace(TJS_W("%1"), ttstr((tjs_int)Hash.GetCount()));
+			msg.Replace(TJS_W("%1"), ttstr((tjs_int)Hash.size()));
 			output->Print(msg.c_str());
 		}
 
 		// list all unfreed objects
-		tHash::tIterator i;
-		for(i = Hash.GetFirst(); !i.IsNull(); i++)
-		{
+		for (const auto &pair: Hash) {
 			tjs_char addr[65];
-			TJS_snprintf(addr, sizeof(addr)/sizeof(tjs_char), TJS_W("0x%p"), i.GetKey());
+			TJS_snprintf(addr, sizeof(addr)/sizeof(tjs_char), TJS_W("0x%p"), pair.first);
 			ttstr info = (const tjs_char *)TJSObjectWasNotFreed;
 			info.Replace(TJS_W("%1"), addr);
-			info.Replace(TJS_W("%2"), i.GetValue().Type);
-			info.Replace(TJS_W("%3"), i.GetValue().History);
+			info.Replace(TJS_W("%2"), pair.second.Type);
+			info.Replace(TJS_W("%3"), pair.second.History);
 			output->Print(info.c_str());
 		}
 
@@ -288,8 +287,8 @@ public:
 		output->Print(TJS_W("---"));
 		output->Print((const tjs_char *)TJSGroupByObjectTypeAndHistory);
 		std::vector<tTJSObjectHashMapRecord> items;
-		for(i = Hash.GetFirst(); !i.IsNull(); i++)
-			items.push_back(i.GetValue());
+		for (const auto &pair: Hash)
+			items.push_back(pair.second);
 
 		std::stable_sort(items.begin(), items.end(),
 			tTJSObjectHashMapRecordComparator_HistoryAndType());
@@ -359,19 +358,16 @@ public:
 
 	bool AnyUnfreed()
 	{
-		return Hash.GetCount() != 0;
+		return !Hash.empty();
 	}
 
 	void WriteAllUnfreedObjectsToLog()
 	{
 		if(!TJSObjectHashMapLog) return;
-			
-		tHash::tIterator i;
-		for(i = Hash.GetFirst(); !i.IsNull(); i++)
-		{
+		for (auto &pair: Hash) {
 			TJSStoreLog(liiAdd);
-			TJSStoreLog(i.GetKey());
-			i.GetValue().StoreLog();
+			TJSStoreLog(pair.first);
+			pair.second.StoreLog();
 		}
 	}
 

@@ -21,7 +21,7 @@ namespace TJS
 //---------------------------------------------------------------------------
 class tTJSMessageMapper
 {
-	tTJSHashTable<ttstr, tTJSMessageHolder*> Hash;
+	std::unordered_map<ttstr,tTJSMessageHolder*,tTJSStringHash> Hash;
 	tjs_uint RefCount;
 
 public:
@@ -30,20 +30,19 @@ public:
 
 	void Register(const tjs_char *name, tTJSMessageHolder *holder)
 	{
-		Hash.Add(ttstr(name), holder);
+		Hash[ttstr(name)] = holder;
 	}
 
 	void Unregister(const tjs_char *name)
 	{
-		Hash.Delete(ttstr(name));
+		Hash.erase(ttstr(name));
 	}
 
 	bool AssignMessage(const tjs_char *name, const tjs_char *newmsg)
 	{
-		tTJSMessageHolder **holder = Hash.Find(ttstr(name));
-		if(holder)
-		{
-			(*holder)->AssignMessage(newmsg);
+		auto search = Hash.find(ttstr(name));
+		if (search != Hash.end()) {
+			search->second->AssignMessage(newmsg);
 			return true;
 		}
 		return false;
@@ -51,10 +50,10 @@ public:
 
 	bool AssignMessage(const tjs_char *name, const tjs_char *newmsg, tjs_uint len)
 	{
-		tTJSMessageHolder **holder = Hash.Find(ttstr(name));
-		if(holder)
+		auto search = Hash.find(ttstr(name));
+		if(search!=Hash.end())
 		{
-			(*holder)->AssignMessage(newmsg,len);
+			search->second->AssignMessage(newmsg,len);
 			return true;
 		}
 		return false;
@@ -62,10 +61,10 @@ public:
 
 	bool Get(const tjs_char *name, ttstr &str)
 	{
-		tTJSMessageHolder **holder = Hash.Find(ttstr(name));
-		if(holder)
+		auto search = Hash.find(ttstr(name));
+		if(search!=Hash.end())
 		{
-			str = (const tjs_char *)(**holder);
+			str = (const tjs_char *)(*(search->second));
 			return true;
 		}
 		return false;
@@ -79,15 +78,12 @@ static int TJSMessageMapperRefCount = 0;
 ttstr tTJSMessageMapper::CreateMessageMapString()
 {
 	ttstr script;
-	tTJSHashTable<ttstr, tTJSMessageHolder*>::tIterator i;
-	for(i = Hash.GetLast(); !i.IsNull(); i--)
-	{
-		ttstr name = i.GetKey();
-		tTJSMessageHolder *holder = i.GetValue();
+
+	for (const auto& pair : Hash) {
 		script += TJS_W("\tr(\"");
-		script += name.EscapeC();
+		script += pair.first.EscapeC();
 		script += TJS_W("\", \"");
-		script += ttstr((const tjs_char *)(*holder)).EscapeC();
+		script += ttstr(pair.second).EscapeC();
 #ifdef TJS_TEXT_OUT_CRLF
 		script += TJS_W("\");\r\n");
 #else

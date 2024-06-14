@@ -40,14 +40,11 @@ private:
 		}
 	};
 
-	class tScriptCacheHashFunc
-	{
-	public:
-		static tjs_uint32 Make(const tScriptCacheData &val)
-		{
-			tjs_uint32 v = tTJSHashFunc<ttstr>::Make(val.Script);
-			v ^= val.ExpressionMode?1:0;
-			v ^= val.MustReturnResult?1:0;
+	struct tScriptCacheHashFunc {
+		std::size_t operator()(const tScriptCacheData &val) const {
+			size_t v = tTJSStringHash()(val.Script);
+			v ^= val.ExpressionMode ? 1 : 0;
+			v ^= val.MustReturnResult ? 1 : 0;
 			return v;
 		}
 	};
@@ -56,10 +53,7 @@ private:
 
 	typedef tTJSRefHolder<tTJSScriptBlock> tScriptBlockHolder;
 
-	typedef tTJSHashCache<tScriptCacheData, tScriptBlockHolder, tScriptCacheHashFunc>
-		tCache;
-
-	tCache Cache;
+	HashCache<tScriptCacheData, tScriptBlockHolder, tScriptCacheHashFunc> Cache;
 
 public:
 	tTJSScriptCache(tTJS *owner);
